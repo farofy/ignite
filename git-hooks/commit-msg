@@ -1,0 +1,76 @@
+#!/bin/sh
+# ignite: reject commit messages that break the Conventional Commits standard.
+# Installed globally through a git core.hooksPath.
+# Merge, revert, fixup and squash commits are skipped.
+
+MAX_LEN=72
+TARGET_LEN=50
+TYPES='feat|fix|refactor|perf|docs|test|build|ci|chore|infra|revert'
+
+header=$(head -n1 "$1")
+
+case "$header" in
+  Merge*|Revert*|fixup!*|squash!*|'#'*) exit 0 ;;
+esac
+
+if ! printf '%s' "$header" | grep -Eq "^($TYPES)\([a-z0-9._/-]+\)!?: .+"; then
+  echo "" >&2
+  echo "✗ Commit rejected: not a valid Conventional Commit." >&2
+  echo "" >&2
+  echo "  Received : $header" >&2
+  echo "  Expected : <type>(<scope>): <description>   (scope REQUIRED)" >&2
+  echo "  Valid types: $(echo "$TYPES" | tr '|' ' ')" >&2
+  echo "" >&2
+  echo "  Example: feat(auth): add refresh token rotation" >&2
+  echo "" >&2
+  exit 1
+fi
+
+desc=$(printf '%s' "$header" | sed -E "s/^($TYPES)\([a-z0-9._/-]+\)!?: //")
+if printf '%s' "$desc" | grep -q '[A-Z]'; then
+  echo "" >&2
+  echo "✗ Commit rejected: the subject must be entirely lowercase." >&2
+  echo "" >&2
+  echo "  Received : $header" >&2
+  echo "  Fix to   : $(printf '%s' "$header" | tr '[:upper:]' '[:lower:]')" >&2
+  echo "" >&2
+  exit 1
+fi
+
+len=$(printf '%s' "$header" | wc -m | tr -d ' ')
+if [ "$len" -gt "$MAX_LEN" ]; then
+  echo "" >&2
+  echo "✗ Commit rejected: subject is $len characters, limit is $MAX_LEN." >&2
+  echo "  $header" >&2
+  echo "" >&2
+  exit 1
+fi
+
+# Soft target. The subject including scope should aim for TARGET_LEN.
+# Over it still commits, so this warns without blocking.
+if [ "$len" -gt "$TARGET_LEN" ]; then
+  echo "" >&2
+  echo "→ Subject is $len characters. Aim for $TARGET_LEN or fewer. $MAX_LEN is the hard limit." >&2
+  echo "  $header" >&2
+  echo "" >&2
+fi
+
+# Footer: a co-author trailer must use the exact git capitalisation.
+bad=$(grep -iE '^co-authored-by:' "$1" | grep -vE '^Co-authored-by:' | head -n1)
+if [ -n "$bad" ]; then
+  echo "" >&2
+  echo "✗ Commit rejected: co-author trailer must read 'Co-authored-by:'." >&2
+  echo "" >&2
+  echo "  Received : $bad" >&2
+  echo "  Fix to   : Co-authored-by:${bad#*:}" >&2
+  echo "" >&2
+  exit 1
+fi
+
+# Non-blocking note: which ignite review skills ran for this commit.
+REVIEW_LOG="$HOME/.claude/ignite-review-log.mjs"
+if [ -f "$REVIEW_LOG" ] && command -v node >/dev/null 2>&1; then
+  node "$REVIEW_LOG" --commit-check 2>/dev/null || true
+fi
+
+exit 0
