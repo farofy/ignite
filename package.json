@@ -1,7 +1,7 @@
 {
   "name": "ignite",
   "version": "1.0.0",
-  "description": "Shared team bootstrap: skill bundles, ponytail, MCP servers and CLAUDE.md",
+  "description": "Shared Claude Code team bootstrap: skill bundles, review hooks, MCP servers, and a common CLAUDE.md",
   "author": "Farofy",
   "license": "Apache-2.0",
   "private": true,
@@ -16,7 +16,7 @@
   "bugs": {
     "url": "https://github.com/farofy/ignite/issues"
   },
-  "homepage": "https://github.com/farofy/ignite#readme",
+  "homepage": "https://ignite.farofy.com",
   "scripts": {
     "setup": "node setup.mjs"
   }
