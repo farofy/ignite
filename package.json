@@ -1,0 +1,23 @@
+{
+  "name": "ignite",
+  "version": "1.0.0",
+  "description": "Shared team bootstrap: skill bundles, ponytail, MCP servers and CLAUDE.md",
+  "author": "Farofy",
+  "license": "Apache-2.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/farofy/ignite.git"
+  },
+  "bugs": {
+    "url": "https://github.com/farofy/ignite/issues"
+  },
+  "homepage": "https://github.com/farofy/ignite#readme",
+  "scripts": {
+    "setup": "node setup.mjs"
+  }
+}
