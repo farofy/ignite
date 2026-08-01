@@ -40,6 +40,7 @@ const SKIP = new Set([
   ".pre-commit-config.yaml",
   ".git-blame-ignore-revs",
   "skills/repo-setup/labels.json",
+  "CHANGELOG.md",
 ]);
 
 const splitlines = (t) => {
