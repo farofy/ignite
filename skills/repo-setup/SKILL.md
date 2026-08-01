@@ -153,6 +153,11 @@ Keep a `CHANGELOG.md` at the repo root in the same grouped format, newest
 version on top. The GitHub release covers one version. The file accumulates every
 version for readers browsing the source.
 
+Build the version's entries at release, from the commits merged since the
+previous tag, so every hash is real. A feature PR adds no changelog line, since
+its squash hash does not exist until merge. Cut the release in its own PR that
+writes the version section, then tag that merge commit.
+
 Never delete a published tag or release once others may depend on it. Move the
 changelog forward with a new version instead. Re-cutting a tag is safe only on a
 fresh repository with no consumers.
