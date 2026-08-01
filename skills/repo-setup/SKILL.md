@@ -126,14 +126,36 @@ the new project's areas.
 
 ## 4. Tags and releases
 
-SemVer with a `v` prefix (`v0.1.0`). Tag on a release, and cut a
-GitHub release with notes so the `changelog:` labels have somewhere to land.
+SemVer with a `v` prefix (`v0.1.0`). Tag on a release, then cut a GitHub release
+whose notes group commits by change type, so the `changelog:` labels have
+somewhere to land.
 
 ```bash
 git tag -a v1.2.3 -m "release 1.2.3"
 git push origin v1.2.3
-gh release create v1.2.3 --generate-notes
+gh release create v1.2.3 --notes-file notes.md
 ```
+
+Write `notes.md` with one `## Changelog` heading, a subsection per type
+(Features, Bug fixes, Documentation updates), and one line per commit:
+
+```text
+* <hash>: <subject> (#<pr>) (@<author>)
+```
+
+Reference each author as a bare `@handle`, not a `[@handle](url)` link. GitHub
+collects bare mentions into an auto-generated Contributors avatar grid at the end
+of the release. Links are not collected, and a hand-written `## Contributors`
+section renders a second time next to the auto grid, so the release shows two
+Contributors blocks. Use bare mentions and add no Contributors section.
+
+Keep a `CHANGELOG.md` at the repo root in the same grouped format, newest
+version on top. The GitHub release covers one version. The file accumulates every
+version for readers browsing the source.
+
+Never delete a published tag or release once others may depend on it. Move the
+changelog forward with a new version instead. Re-cutting a tag is safe only on a
+fresh repository with no consumers.
 
 ---
 
