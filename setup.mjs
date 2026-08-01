@@ -8,10 +8,11 @@
 //   node setup.mjs --no-desktop  # skip the desktop control MCP (on by default)
 //   node setup.mjs --pull        # fast-forward the clone, then sync (auto-refresh uses this)
 //
-// The standard skill set comes from three sources:
-//   * Leonxlnx/taste-skill   (interface design)
-//   * mattpocock/skills      (engineering: tdd, code-review, diagnosing-bugs)
-//   * greensock/gsap-skills  (gsap animation: timeline, scrolltrigger, plugins)
+// The standard skill set comes from four sources:
+//   * Leonxlnx/taste-skill       (interface design)
+//   * mattpocock/skills          (engineering: tdd, code-review, diagnosing-bugs)
+//   * greensock/gsap-skills      (gsap animation: timeline, scrolltrigger, plugins)
+//   * bradautomates/claude-video (video: /watch downloads, frames, transcript)
 //
 // Clearing never deletes. It moves the old skill directory to .backup-<timestamp>
 // so the change is reversible. Idempotent: running it again is safe.
@@ -208,6 +209,20 @@ run(
   "Install the ANIMATION skills (greensock/gsap-skills)",
   "npx -y skills add greensock/gsap-skills --global --copy --agent claude-code -y",
 );
+run(
+  "Install the VIDEO skill (bradautomates/claude-video)",
+  "npx -y skills add bradautomates/claude-video --global --copy --agent claude-code -y",
+);
+
+// 1a. The /watch skill needs ffmpeg and yt-dlp. Warn only, since installing them
+// may need sudo, and leave the install to the user.
+for (const dep of ["ffmpeg", "yt-dlp"]) {
+  if (hasCmd(dep)) skip.push(`${dep} (already present)`);
+  else
+    console.log(
+      `\n▶ ⚠ ${dep} missing. The /watch skill needs it. Install it, then rerun.`,
+    );
+}
 
 // 1b. This repository's own skills (the skills/ directory)
 // Runs AFTER the bundles so the clearing step cannot remove them.
