@@ -1,0 +1,78 @@
+name: commit-lint
+
+# Enforce the commit standard server side. The local hook can be skipped with
+# --no-verify and does not run for commits made through the web UI, so this
+# workflow is the last line of defence.
+#
+# It reuses git-hooks/commit-msg as the single source of truth, so the local rules
+# and the CI rules cannot drift apart.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  self-test:
+    name: hook self-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sh git-hooks/test-commit-msg.sh
+
+  diction:
+    name: diction
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: node scripts/check-diction.mjs
+
+  format:
+    name: format and lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pre-commit
+      - run: pre-commit run --all-files --show-diff-on-failure
+
+  commits:
+    name: validate commit messages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine commit range
+        id: range
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git fetch --no-tags origin "${{ github.base_ref }}"
+            echo "range=origin/${{ github.base_ref }}..HEAD" >> "$GITHUB_OUTPUT"
+          else
+            echo "range=${{ github.event.before }}..${{ github.sha }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Validate
+        run: |
+          set -e
+          tmp=$(mktemp)
+          failed=0
+          # Skip when the range is empty or holds an all-zero SHA (new branch).
+          case "${{ steps.range.outputs.range }}" in
+            *0000000000000000000000000000000000000000*) echo "New branch, skipping."; exit 0 ;;
+          esac
+          for sha in $(git rev-list --no-merges "${{ steps.range.outputs.range }}"); do
+            git log -1 --format=%B "$sha" > "$tmp"
+            if sh git-hooks/commit-msg "$tmp"; then
+              echo "  ok    $(git log -1 --format='%h %s' "$sha")"
+            else
+              echo "  FAIL  $(git log -1 --format='%h %s' "$sha")"
+              failed=1
+            fi
+          done
+          rm -f "$tmp"
+          exit "$failed"
