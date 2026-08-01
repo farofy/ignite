@@ -3,6 +3,12 @@
 All notable changes are recorded here, grouped by change type, newest version on
 top. Each GitHub release covers one version. This file accumulates every version.
 
+## v1.0.1 - 2026-08-01
+
+### Documentation updates
+
+- [eee102c](https://github.com/farofy/ignite/commit/eee102c): docs(conventions): document only landed work ([#13](https://github.com/farofy/ignite/pull/13)) (@trants)
+
 ## v1.0.0 - 2026-08-01
 
 ### Features
