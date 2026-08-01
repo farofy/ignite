@@ -17,6 +17,8 @@ Five banned word classes:
 
 - No marketing, no emotion, nothing subjective, nothing that reads as
   AI-written. Write only facts a reviewer can verify.
+- Document only what has landed. No file, commit, message, or release note
+  describes a feature, pull request, or version that does not yet exist.
 - A performance or reliability claim carries a **number**, or it is dropped.
 - Short sentences ending in a period. Never join two clauses with an em dash or
   a semicolon. Split them into two sentences. This holds in prose, not code
