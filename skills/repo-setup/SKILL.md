@@ -153,8 +153,16 @@ Settings:
 
 - The default branch chosen in section 1.
 - Delete head branches on merge.
-- Merge methods the branch model needs. A branch with `required_linear_history`
-  cannot take a merge commit.
+- Merge method is repo-wide, not per-branch. Set squash only, unless the branch
+  model needs another.
+- Auto-merge: ask the user. On lets a maintainer queue a pull request to merge
+  once its checks and approval pass. Off keeps merges manual. Default off.
+
+A three-branch model wants squash on feature work but a merge commit to promote
+staging to main. GitHub sets the merge method per repository, not per branch. So
+enable both squash and merge commit, then enforce the split with rulesets. Add
+`required_linear_history` on `develop` and `staging` so they take squash or
+rebase only. Leave `main` without it so it takes the merge commit from `staging`.
 
 ---
 
