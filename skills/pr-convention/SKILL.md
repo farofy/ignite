@@ -69,6 +69,16 @@ State what changed and why, without repeating the title. Keep it short.
 - [x] `npm test` - 16/16 pass
 - [x] `npm run build` - emits `dist/`
 
+## Reviews
+
+- [x] claude chat - presented to the user, approved before push or create
+- [x] `commit-convention` - subject 46, body wrapped, footer
+- [x] `pr-convention` - branch, title, labels, reviewer
+- [x] `comment-review` - 2 comments, both KEEP
+- [x] `code-style` - prettier and eslint, no findings
+- [x] `architecture-review` - N/A, no layering in this change
+- [x] `ponytail-review` - lean
+
 ## Checklist
 
 - [ ] Tests added or updated
@@ -100,6 +110,9 @@ Rules for filling it in:
 - **Testing**: paste real command output as evidence. Long output goes in a
   `<details><summary>` block. Use `N/A` only when the change has no runtime
   effect, such as documentation. **Never tick a check that was not run.**
+- **Reviews**: proof that every review skill ran, produced by the `review-gate`
+  skill. Tick a line only when the skill ran, with a one-line result. A skill
+  that does not apply is `N/A` with the reason.
 - **Related PRs**: required for the two-PR flow. Cross-reference both PRs of
   the same ticket. Drop the section when there is only one PR.
 - **Linked issue**: the ticket URL. Detect the tracker base URL from earlier
@@ -117,6 +130,7 @@ creates two copies that drift apart. Defer to the source instead.
 | `Type of change` | `See #<source>.`                                            |
 | `Changes`        | `See #<source>.`                                            |
 | `Testing`        | **Own content, see below**                                  |
+| `Reviews`        | `See #<source>.`                                            |
 | `Checklist`      | `See #<source>.`                                            |
 | `Related PRs`    | Full table, same in both PRs. Link the cherry-picked commit |
 | `Linked issue`   | Full link, same ticket                                      |
