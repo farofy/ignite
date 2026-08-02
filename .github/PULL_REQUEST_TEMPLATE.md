@@ -38,21 +38,6 @@ change cannot affect runtime, such as documentation.
 - [ ] `node scripts/check-diction.mjs`
 - [ ] `node --check setup.mjs`
 
-## Reviews
-
-<!--
-Proof that every review skill ran, from the review-gate skill. Tick only what
-was run. Mark N/A with a reason.
--->
-
-- [ ] claude chat - presented to the user, approved before push or create
-- [ ] `commit-convention`
-- [ ] `pr-convention`
-- [ ] `comment-review`
-- [ ] `code-style`
-- [ ] `architecture-review`
-- [ ] `ponytail-review`
-
 ## Notes
 
 <!-- Compatibility notes or follow-up work. Delete if empty. -->
