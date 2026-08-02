@@ -16,16 +16,24 @@ is set. Every step is a `gh` command, so the setup is repeatable and auditable.
 
 ## 1. Branch model
 
-The standard runs three branches, with `staging` as the default.
+The branch model varies by project. Ask the user which branches the repository
+runs before protecting anything. Do not assume.
 
-| Branch    | Role                                                                                      |
-| --------- | ----------------------------------------------------------------------------------------- |
-| `staging` | UAT, the closest to production. Feature PRs open here, releases go from here. The default |
-| `develop` | Dev. Changes cherry-pick here from `staging`                                              |
-| `main`    | Production. `staging` merges here                                                         |
+| Branch    | Role                                                |
+| --------- | --------------------------------------------------- |
+| `main`    | Production                                          |
+| `staging` | UAT, closest to production, where the PO signs off  |
+| `develop` | Where dev and QC work, changes flow up to `staging` |
 
-A large application uses all three. A small tool or library may run on `main`
-alone. Pick the model before rulesets, and protect only the branches that exist.
+Common models:
+
+- `main` only - a small tool or library.
+- `main` + `staging` - staging is UAT before production.
+- `main` + `staging` + `develop` - a large application: develop for dev and QC,
+  staging for UAT and the PO, main for production.
+
+Pick the model before rulesets, and protect only the branches that exist. Pass
+the chosen branches to `setup-branch-protections.sh --branches`.
 
 ---
 
