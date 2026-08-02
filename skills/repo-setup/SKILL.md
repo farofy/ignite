@@ -31,57 +31,24 @@ alone. Pick the model before rulesets, and protect only the branches that exist.
 
 ## 2. Rulesets
 
-One ruleset per protected branch, created from the payload below. Every protected
-branch enforces the same core:
+One ruleset covers the protected branches. Each enforces the same core:
 
 - `deletion` and `non_fast_forward`: no branch deletion, no force-push.
-- `pull_request`: one approval, dismiss stale reviews on push, require review
-  thread resolution.
-- `required_status_checks`: the new repo's own CI job names as the contexts.
-- `staging` and `develop` add `required_linear_history`. `main` does not.
+- `pull_request`: one approval, dismiss stale reviews on push.
+- `required_status_checks`: the repo's own CI job names as the contexts, strict.
 - No bypass actors.
 
-Create one per branch with this payload, changing `name`, the ref, and the
-check contexts:
-
-```json
-{
-  "name": "main",
-  "target": "branch",
-  "enforcement": "active",
-  "conditions": {
-    "ref_name": { "include": ["refs/heads/main"], "exclude": [] }
-  },
-  "rules": [
-    { "type": "deletion" },
-    { "type": "non_fast_forward" },
-    {
-      "type": "pull_request",
-      "parameters": {
-        "required_approving_review_count": 1,
-        "dismiss_stale_reviews_on_push": true,
-        "require_code_owner_review": false,
-        "require_last_push_approval": false,
-        "required_review_thread_resolution": true
-      }
-    },
-    {
-      "type": "required_status_checks",
-      "parameters": {
-        "strict_required_status_checks_policy": false,
-        "required_status_checks": [{ "context": "verify (22)" }]
-      }
-    }
-  ]
-}
-```
+Run [`setup-branch-protections.sh`](setup-branch-protections.sh), which this
+skill carries. It creates the ruleset, or updates it in place when it exists:
 
 ```bash
-gh api repos/<org>/<repo>/rulesets -X POST --input ruleset-main.json
+./setup-branch-protections.sh <org>/<repo> --checks <ctx1>,<ctx2>
 ```
 
-For `staging` and `develop`, add `{ "type": "required_linear_history" }` to
-`rules`.
+Pass the CI contexts the repo's workflow reports. Omit `--checks` on a repo with
+no CI yet, then re-run once the workflow has run and the context names are known.
+The defaults protect `main` and `staging` with one approval. See `--help` in the
+script header for `--branches`, `--approvals`, `--code-owner` and `--name`.
 
 ---
 
