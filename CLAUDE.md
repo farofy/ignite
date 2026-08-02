@@ -64,6 +64,9 @@ Run these at their checkpoint, without waiting to be asked:
 - On a structural change, or before a pull request → `architecture-review`.
 - Writing the commit message → `commit-convention`.
 - Naming a branch or opening a pull request → `pr-convention`.
+- Before a commit or pull request → `review-gate` to run every review skill and
+  emit the proof, as the `Reviews` section of the pull request or a footer in
+  chat.
 
 Reviewing is reading, not writing. These report findings and do not edit files
 on their own.
