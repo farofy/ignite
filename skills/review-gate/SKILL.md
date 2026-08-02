@@ -1,14 +1,13 @@
 ---
 name: review-gate
-description: Run every review skill on the current change and emit the proof that each one ran, as a Reviews checklist to paste into the pull request or show in chat. Use before a commit or pull request, after a reviewable change, or when the user says "prove the reviews", "review gate", "run all reviews", "chứng minh đã duyệt skill", "chạy hết review skill", "soát đủ skill".
+description: Run every review skill on the current change and emit the proof that each one ran, as a checklist to show in chat. Use before a commit or pull request, after a reviewable change, or when the user says "prove the reviews", "review gate", "run all reviews", "chứng minh đã duyệt skill", "chạy hết review skill", "soát đủ skill".
 ---
 
 # Review gate
 
 Run every review skill on the current change, then emit the proof that each one
-ran. The output is a Reviews checklist. Paste it into the pull request under a
-`## Reviews` heading, or show it in chat after the change. Never tick a skill
-that was not run. The checklist is evidence, not intent.
+ran. The output is a checklist shown in chat after the change. Never tick a
+skill that was not run. The checklist is evidence, not intent.
 
 ## 1. Resolve the change
 
@@ -45,8 +44,7 @@ A skill that does not apply is `N/A` with the reason, never a silent skip.
 - [x] ponytail-review - <result>
 ```
 
-Tick a line only after the skill ran and produced that result. In a two-PR flow
-the cherry-pick pull request defers the section: `Reviews: See #<source>.`
+Tick a line only after the skill ran and produced that result.
 
 ## 4. Gate
 
