@@ -97,6 +97,16 @@ hand-rolling tweens:
 These cover GSAP correctness. `design-taste-frontend` and `high-end-visual-design`
 still own the visual direction. Use both.
 
+## Video (`/watch`)
+
+Installed as a skill. When a task needs the content of a video (YouTube, TikTok,
+Vimeo, a local file), use `/watch` instead of guessing from the title or URL. It
+downloads the video, extracts frames, pulls captions or transcribes with Whisper,
+and hands Claude the frames plus a timestamped transcript.
+
+- Needs `ffmpeg` and `yt-dlp` on the machine. Captions are free. The Whisper
+  fallback needs a Groq or OpenAI key.
+
 ## Chrome DevTools MCP (`chrome-devtools`)
 
 Installed globally. It opens a real Chrome window. When inspecting or debugging a
