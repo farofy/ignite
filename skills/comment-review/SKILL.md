@@ -106,6 +106,14 @@ does not already say, is the language plain. A type the signature already
 declares does not belong in the doc text, repeating it is REWRITE. Never
 collapse a doc comment into one line.
 
+Use the doc-comment syntax, not a line comment. A comment that documents an
+exported or public symbol must use the language's doc form: `/** */` in Java and
+Kotlin, `///` in Rust, a `"""` docstring in Python, XML `///` in C#, JSDoc in
+TypeScript. A `//` or `#` line comment sitting above a public symbol as its
+documentation is REWRITE to the doc form, so `javadoc`, `pydoc` and editor hover
+read it. This does not force a doc comment onto every public symbol. It fixes the
+form of the ones that are there.
+
 ### Implementation comments
 
 Everything in section 2 and section 3 applies to these.
