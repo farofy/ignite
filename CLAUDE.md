@@ -119,6 +119,46 @@ live page, use this MCP instead of guessing:
 - Page load performance, Core Web Vitals → performance trace
 - DOM snapshots, throttled CPU or network → as needed
 
+### Driving a Chrome that keeps your logins and history
+
+The default install uses `--isolated=true`, a throwaway profile cleared on exit.
+It carries no logins and no history, which fits most debugging.
+
+To drive a Chrome that keeps logins and history across sessions, point the MCP at
+a browser you launch yourself on a dedicated profile. Chrome 136 and later refuse
+remote debugging on the default profile, so a separate `--user-data-dir` is
+required. That directory holds the state, so the same command below reopens the
+profile with logins and history intact.
+
+1. Launch Chrome on a debug port with a dedicated profile. Reuse the same
+   `--user-data-dir` every time to keep its state:
+
+   ```bash
+   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+     --remote-debugging-port=9222 \
+     --user-data-dir="$HOME/.chrome-debug" \
+     --disable-web-security --disable-site-isolation-trials
+   ```
+
+2. Point the MCP at it, replacing the isolated default:
+
+   ```bash
+   claude mcp remove chrome-devtools -s user
+   claude mcp add chrome-devtools -s user -- \
+     npx chrome-devtools-mcp@latest --browser-url http://127.0.0.1:9222
+   ```
+
+3. Restart the Claude Code session so the MCP reloads.
+
+The debug Chrome must run before the session starts. `--browser-url` connects at
+startup and does not launch a browser of its own.
+
+`--disable-web-security` turns off the browser CORS and same-origin checks. Keep
+this profile for automation, not everyday browsing.
+
+Running `node setup.mjs` again resets this MCP to `--isolated=true`. Re-apply
+step 2 after each setup run.
+
 ## Desktop control MCP
 
 Installed by `node setup.mjs`, on by default. Skip it with `--no-desktop`. When
