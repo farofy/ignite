@@ -137,6 +137,12 @@ scope, the colon, the space, and the description. **72 is the hard limit.** The
 commit hook warns above 50 and rejects above 72. Prefer a tighter description
 over a longer one. Drop filler before adding characters.
 
+The limit is on the commit you write. When a pull request is squash-merged,
+GitHub appends ` (#<pr>)` to the subject on the target branch, which runs past
+the limit. That suffix is expected. Do not rewrite a merge commit to strip it.
+Merge with `gh pr merge --squash --subject --body-file` so the body and trailer
+survive the squash, since the web UI drops them.
+
 ---
 
 ## Body rules
