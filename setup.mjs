@@ -109,7 +109,10 @@ console.log(
 // 0b. GitHub CLI (gh). pr-convention needs it to read labels and open PRs
 const hasCmd = (c) => {
   try {
-    execSync(`${c} --version`, { stdio: "ignore", shell: true });
+    execSync(IS_WIN ? `where ${c}` : `command -v ${c}`, {
+      stdio: "ignore",
+      shell: true,
+    });
     return true;
   } catch {
     return false;
