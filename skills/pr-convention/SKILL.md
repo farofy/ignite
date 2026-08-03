@@ -133,6 +133,21 @@ branch. Record two things:
 Write `See #<source>.` only where the content would be identical. Never use it
 to avoid work on a section that has something of its own to say.
 
+### Present before you create
+
+Before running `gh pr create`, show the user the full pull request and wait for
+their explicit approval. Include:
+
+- the title, with its ticket id,
+- the base and head branches,
+- the labels,
+- the reviewer and the assignee, each named,
+- the complete body, not a summary.
+
+When the ticket id, the reviewer, the assignee, or a label is not clear, ask the
+user rather than guessing. Never invent a ticket id. Never open the pull request
+before the user approves it. The cherry-pick pull request follows the same rule.
+
 ### Reviewer, assignee and label
 
 Every PR must have all **three** before it is created:
