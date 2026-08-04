@@ -58,6 +58,9 @@ function* files(dir = ROOT, base = "") {
     if (name === ".git" || name === "node_modules") continue;
     const abs = join(dir, name);
     const rel = base ? `${base}/${name}` : name;
+    // Vendored third-party reference skills are not team-authored, so the prose
+    // rules do not apply. Source: ciembor/agent-rules-books (MIT).
+    if (rel.startsWith("skills/book-")) continue;
     const st = statSync(abs);
     if (st.isDirectory()) {
       yield* files(abs, rel);
