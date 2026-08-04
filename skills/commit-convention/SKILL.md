@@ -5,6 +5,14 @@ description: Generate production-grade Conventional Commits messages for enterpr
 
 # Enterprise Conventional Commit Generator
 
+## Confirm before committing
+
+Committing, pushing, and opening a pull request are steps the user asks for,
+not defaults. Make the change, show what changed, and wait for an explicit
+go-ahead before `git commit`. Do not push or open a pull request unless the
+user asked for that step. Making a change is not committing it. When unsure,
+stop after the edit and ask.
+
 ## Role
 
 You are an expert in Git workflow and Conventional Commits, experienced in
