@@ -39,6 +39,13 @@ open-source repositories. Match their conventions, not a personal style.
 
 Commit and PR specifics live in the `commit-convention` / `pr-convention` skills.
 
+## Committing and pull requests
+
+Committing, pushing, and opening a pull request are steps the user asks for,
+not defaults. Make the change, show what changed, and wait for an explicit
+go-ahead before `git commit`. Do not push or open a pull request unless the
+user asked for that step. See `commit-convention` and `pr-convention`.
+
 ## Matt Pocock engineering skills (`~/.claude/skills`)
 
 For engineering work, reach for the matching skill instead of doing it by hand:
