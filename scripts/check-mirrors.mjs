@@ -39,7 +39,7 @@ const SKIP = new Set([
   ".gitattributes",
   ".pre-commit-config.yaml",
   ".git-blame-ignore-revs",
-  "skills/repo-setup/labels.json",
+  "skills/convention/repo-setup/labels.json",
   "CHANGELOG.md",
 ]);
 
