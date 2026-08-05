@@ -48,10 +48,11 @@ user asked for that step. See `commit-convention` and `pr-convention`.
 
 ## Using skills
 
-Before writing or changing code, check whether a skill covers the task and use
-the most specific match. The sections below list skills by domain. Prefer a
-skill over doing the work by hand. When several match, an action or review skill
-beats a consult-only book.
+Before writing or changing code, check whether a skill covers the task, and
+state the outcome in one line before starting: the skill you will use, or that
+none applies. Use the most specific match. The sections below list skills by
+domain. Prefer a skill over doing the work by hand. When several match, an
+action or review skill beats a consult-only book.
 
 ## Matt Pocock engineering skills (`~/.claude/skills`)
 
