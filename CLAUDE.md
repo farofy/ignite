@@ -46,6 +46,13 @@ not defaults. Make the change, show what changed, and wait for an explicit
 go-ahead before `git commit`. Do not push or open a pull request unless the
 user asked for that step. See `commit-convention` and `pr-convention`.
 
+## Using skills
+
+Before writing or changing code, check whether a skill covers the task and use
+the most specific match. The sections below list skills by domain. Prefer a
+skill over doing the work by hand. When several match, an action or review skill
+beats a consult-only book.
+
 ## Matt Pocock engineering skills (`~/.claude/skills`)
 
 For engineering work, reach for the matching skill instead of doing it by hand:
@@ -76,6 +83,13 @@ Run these at their checkpoint, without waiting to be asked:
 
 Reviewing is reading, not writing. These report findings and do not edit files
 on their own.
+
+## Reference skills (vendored, `skills/vendor/`)
+
+The `book-*` skills distil software design books. They are reference material to
+consult, not actions to run. When a book skill and an action or review skill both
+match a task, the action or review skill wins. Reach for a book to inform a
+decision, never as the task itself.
 
 ## Frontend and design skills (`design-taste-frontend`)
 

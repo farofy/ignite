@@ -229,9 +229,23 @@ for (const dep of ["ffmpeg", "yt-dlp"]) {
 
 // 1b. This repository's own skills (the skills/ directory)
 // Runs AFTER the bundles so the clearing step cannot remove them.
+// Skills are grouped into subdirectories (review/, convention/, vendor/).
+// Claude Code reads skills one level deep, so copy each leaf skill directory
+// (one holding a SKILL.md) flat into the destination, dropping the group level.
 const teamSkills = join(HERE, "skills");
+function skillDirs(dir) {
+  const out = [];
+  for (const e of readdirSync(dir, { withFileTypes: true })) {
+    if (!e.isDirectory()) continue;
+    const abs = join(dir, e.name);
+    if (existsSync(join(abs, "SKILL.md"))) out.push([e.name, abs]);
+    else out.push(...skillDirs(abs));
+  }
+  return out;
+}
 if (existsSync(teamSkills)) {
-  const names = readdirSync(teamSkills);
+  const found = skillDirs(teamSkills);
+  const names = found.map(([n]) => n);
   if (DRY) {
     console.log(
       `\n▶ (dry-run) Would copy ${names.length} repo skills: ${names.join(", ")}`,
@@ -241,8 +255,8 @@ if (existsSync(teamSkills)) {
     try {
       const dest = join(HOME, ".claude", "skills");
       mkdirSync(dest, { recursive: true });
-      for (const n of names)
-        cpSync(join(teamSkills, n), join(dest, n), { recursive: true });
+      for (const [n, abs] of found)
+        cpSync(abs, join(dest, n), { recursive: true });
       ok.push(`Copied ${names.length} repo skills (${names.join(", ")})`);
       console.log(`\n▶ Repo skills -> ${dest}: ${names.join(", ")}`);
     } catch (e) {
