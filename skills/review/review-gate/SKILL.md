@@ -30,6 +30,14 @@ Run each review skill on the resolved change and record one line for it.
 
 A skill that does not apply is `N/A` with the reason, never a silent skip.
 
+## 2b. Note the vendored references consulted
+
+The `skills/vendor/book-*` skills are consult-only references, not review skills,
+so they do not go in the review checklist. Record separately which ones the
+change actually consulted. Read the invocations from
+`~/.claude/ignite-reviews.json` (keyed by git root and HEAD) or the transcript.
+List only books that were invoked. Say none when none were.
+
 ## 3. Emit the proof
 
 ```markdown
@@ -42,9 +50,18 @@ A skill that does not apply is `N/A` with the reason, never a silent skip.
 - [x] code-style - <result>
 - [x] architecture-review - <result, or N/A and the reason>
 - [x] ponytail-review - <result>
+
+## Reference skills (vendored)
+
+- [x] <book-name> - consulted for <what>
 ```
 
-Tick a line only after the skill ran and produced that result.
+Emit the `Reviews` block always. Emit the `Reference skills (vendored)` block
+too. When no book was invoked, its body is the single line
+`None consulted for this change.`
+
+Tick a line only after the skill ran and produced that result. List a book under
+`Reference skills (vendored)` only when it was invoked, never as intent.
 
 ## 4. Gate
 
